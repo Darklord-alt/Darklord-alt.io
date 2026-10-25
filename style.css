@@ -1,0 +1,1748 @@
+/* ==========================================================================
+   DHRUVIL SONI - PORTFOLIO STYLESHEET
+   Aesthetic: Monochrome Stealth / Terminal Ember
+   Vibe: Minimalist hacker, Unix console, high-signal systems engineering.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   01. DESIGN TOKENS & SYSTEM VARIABLES
+   -------------------------------------------------------------------------- */
+:root {
+  /* --- Canvas & Surfaces --- */
+  --bg-canvas: #0A0A0C;               /* True Pitch Black / Matte Carbon */
+  --bg-surface: #141418;              /* Surface & Cards */
+  --bg-surface-elevated: #1C1C24;     /* Elevated Surface / Hover Cards */
+  --bg-surface-glass: rgba(20, 20, 24, 0.78);
+  --bg-nav: rgba(10, 10, 12, 0.85);
+  --bg-code: #0E0E12;                 /* Deep Terminal Carbon */
+
+  /* --- Borders --- */
+  --border-subtle: #2A2A38;           /* Sharp 1px Borders */
+  --border-card: #2A2A38;
+  --border-hover: rgba(249, 115, 22, 0.45);
+  --border-focus: #F97316;
+
+  /* --- Primary Punch Accent: Terminal Amber / Core Fire --- */
+  --color-amber: #F97316;
+  --color-amber-hover: #EA580C;
+  --color-amber-light: #FB923C;
+  --color-amber-glow: rgba(249, 115, 22, 0.28);
+  --color-amber-tint: rgba(249, 115, 22, 0.08);
+
+  /* --- Secondary Tech Accents --- */
+  --color-violet: #A855F7;            /* Vivid Violet */
+  --color-violet-glow: rgba(168, 85, 247, 0.24);
+  --color-violet-tint: rgba(168, 85, 247, 0.08);
+
+  --color-emerald: #22C55E;           /* Terminal Emerald */
+  --color-emerald-glow: rgba(34, 197, 94, 0.24);
+  --color-emerald-tint: rgba(34, 197, 94, 0.08);
+
+  --color-cyan: #38BDF8;              /* Electric Cyan */
+  --color-cyan-glow: rgba(56, 189, 248, 0.24);
+  --color-cyan-tint: rgba(56, 189, 248, 0.08);
+
+  --color-steel: #64748B;             /* Neutral Steel */
+  --color-crimson: #E11D48;           /* Crimson Pulse */
+
+  /* --- Text Typography Hierarchy --- */
+  --text-primary: #FFFFFF;            /* Primary Typography: True White */
+  --text-secondary: #A1A1AA;          /* Secondary Body Text */
+  --text-muted: #71717A;              /* Neutral Zinc / Subtle Hierarchy */
+  --text-code: #E2E8F0;               /* Monospace Code */
+  --text-contrast: #0A0A0C;           /* Contrast Text for Filled Amber Buttons */
+
+  /* --- Font Stacks --- */
+  --font-headline: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  /* --- Engineering Radii (No generic giant pills, sharp yet refined curves) --- */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* --- Shadows & Glows --- */
+  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.7);
+  --shadow-card-hover: 0 16px 36px -8px rgba(0, 0, 0, 0.8), 0 0 24px var(--color-amber-glow);
+  --shadow-amber-btn: 0 4px 18px rgba(249, 115, 22, 0.35);
+  --shadow-amber-btn-hover: 0 6px 26px rgba(249, 115, 22, 0.55);
+
+  /* --- Motion & Transitions --- */
+  --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.15s ease;
+  --transition-smooth: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   02. BASE & RESET
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  scroll-padding-top: 86px;
+  background-color: var(--bg-canvas);
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  background-color: var(--bg-canvas);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(249, 115, 22, 0.05) 0%, transparent 60%),
+    radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px;
+  background-position: top center, 0 0;
+  background-attachment: scroll, fixed;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-amber);
+  color: var(--text-contrast);
+}
+
+/* Custom Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-canvas);
+}
+::-webkit-scrollbar-thumb {
+  background: #232330;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-amber);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   03. TYPOGRAPHY & UTILITIES
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  color: var(--text-primary);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.amber-glow {
+  color: var(--color-amber);
+  text-shadow: 0 0 20px var(--color-amber-glow);
+}
+
+.text-amber {
+  color: var(--color-amber) !important;
+}
+
+.text-violet {
+  color: var(--color-violet) !important;
+}
+
+.text-emerald {
+  color: var(--color-emerald) !important;
+}
+
+.text-cyan {
+  color: var(--color-cyan) !important;
+}
+
+.text-steel {
+  color: var(--color-steel) !important;
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+  margin-bottom: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title {
+  font-size: clamp(2rem, 3.8vw, 2.75rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 32px;
+}
+
+.section-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.section-header-row .section-title {
+  margin-bottom: 0;
+}
+
+.view-all-link {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+
+.view-all-link:hover {
+  color: var(--color-amber);
+  border-color: var(--color-amber);
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   04. STEALTH TERMINAL NAVIGATION BAR
+   -------------------------------------------------------------------------- */
+.header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background: var(--bg-nav);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: var(--transition-fast);
+}
+
+.nav-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  height: 72px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* Brand Terminal Logo */
+.brand-logo {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.brand-logo .prompt-sym {
+  color: var(--color-amber);
+  margin-right: 4px;
+}
+
+.brand-logo .cursor-blink {
+  color: var(--color-amber);
+  animation: terminalCursor 1s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes terminalCursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Center Nav Links */
+.nav-center {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+  position: relative;
+  transition: var(--transition-fast);
+}
+
+.nav-link .nav-index {
+  color: var(--color-steel);
+  font-size: 0.75rem;
+  transition: var(--transition-fast);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--text-primary);
+}
+
+.nav-link:hover .nav-index,
+.nav-link.active .nav-index {
+  color: var(--color-amber);
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-amber);
+  box-shadow: 0 0 8px var(--color-amber);
+}
+
+/* Nav Actions (Status + CTA) */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-emerald);
+  box-shadow: 0 0 8px var(--color-emerald);
+  animation: statusPulse 2s infinite ease-in-out;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.status-label {
+  letter-spacing: 0.05em;
+}
+
+.btn-nav {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-amber);
+  background: var(--color-amber-tint);
+  border: 1px solid var(--color-amber);
+  padding: 7px 18px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.04em;
+  transition: var(--transition-smooth);
+}
+
+.btn-nav:hover {
+  background: var(--color-amber);
+  color: var(--text-contrast);
+  box-shadow: var(--shadow-amber-btn);
+}
+
+.mobile-toggle {
+  display: none;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  padding: 8px;
+  border-radius: var(--radius-sm);
+}
+
+/* --------------------------------------------------------------------------
+   05. BUTTONS & CONTROLS
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.02em;
+  transition: var(--transition-smooth);
+}
+
+.btn-primary {
+  background-color: var(--color-amber);
+  color: var(--text-contrast);
+  border: 1px solid var(--color-amber);
+  box-shadow: var(--shadow-amber-btn);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-amber-hover);
+  border-color: var(--color-amber-hover);
+  box-shadow: var(--shadow-amber-btn-hover);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-surface-elevated);
+  border-color: var(--color-amber);
+  color: var(--color-amber);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.btn-outline:hover {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   06. SECTION 1: HERO SECTION
+   -------------------------------------------------------------------------- */
+.hero-section {
+  padding: 72px 24px 60px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 56px;
+}
+
+.hero-kicker {
+  margin-bottom: 18px;
+}
+
+.kicker-tag {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-amber);
+  background: var(--color-amber-tint);
+  border: 1px solid rgba(249, 115, 22, 0.25);
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+}
+
+.hero-headline {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.hero-subtitle {
+  font-family: var(--font-headline);
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.hero-description {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 580px;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.hero-description strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Terminal Spec Bar */
+.terminal-spec-bar {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 10px 18px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  margin-bottom: 36px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.spec-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spec-label {
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.spec-val {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.spec-divider {
+  color: var(--border-subtle);
+  font-weight: 300;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Unix Console Terminal Simulator Card (Hero Right) */
+.hero-visual {
+  position: relative;
+}
+
+.terminal-console-card {
+  background: var(--bg-code);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+.terminal-console-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.console-header {
+  background: var(--bg-surface);
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.console-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.console-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot-amber {
+  background: var(--color-amber);
+  box-shadow: 0 0 6px var(--color-amber-glow);
+}
+
+.dot-violet {
+  background: var(--color-violet);
+  box-shadow: 0 0 6px var(--color-violet-glow);
+}
+
+.dot-emerald {
+  background: var(--color-emerald);
+  box-shadow: 0 0 6px var(--color-emerald-glow);
+}
+
+.console-title {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.console-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  background: var(--bg-surface-elevated);
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+}
+
+.console-body {
+  padding: 22px;
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  line-height: 1.65;
+  color: var(--text-code);
+}
+
+.console-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mt-line {
+  margin-top: 14px;
+}
+
+.syntax-prompt {
+  color: var(--color-amber);
+  font-weight: 600;
+}
+
+.syntax-cmd {
+  color: var(--color-cyan);
+  font-weight: 600;
+}
+
+.syntax-arg {
+  color: var(--text-code);
+}
+
+.console-output {
+  margin-top: 8px;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  border-left: 2px solid var(--border-subtle);
+  padding-left: 14px;
+}
+
+.syntax-bracket {
+  color: var(--text-muted);
+}
+
+.syntax-key {
+  color: var(--color-cyan);
+}
+
+.syntax-val {
+  color: #E2E8F0;
+}
+
+.syntax-success {
+  color: var(--color-emerald);
+  font-weight: 600;
+}
+
+.syntax-cyan {
+  color: var(--color-cyan);
+}
+
+.console-bench-result {
+  margin-top: 8px;
+  padding: 8px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+}
+
+.bench-tag {
+  font-weight: 600;
+}
+
+.bench-stat {
+  color: var(--text-muted);
+}
+
+.syntax-cursor {
+  color: var(--color-amber);
+  animation: terminalCursor 0.9s step-end infinite;
+}
+
+/* --------------------------------------------------------------------------
+   07. SECTION 2: ABOUT SECTION
+   -------------------------------------------------------------------------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.about-paragraph {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.about-paragraph strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.mt-paragraph {
+  margin-top: 20px;
+}
+
+.about-traits-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.trait-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 22px 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: var(--transition-smooth);
+}
+
+.trait-card:hover {
+  transform: translateX(6px);
+  background: var(--bg-surface-elevated);
+}
+
+.trait-card.trait-amber:hover {
+  border-color: var(--color-amber);
+  box-shadow: 0 4px 20px var(--color-amber-glow);
+}
+
+.trait-card.trait-violet:hover {
+  border-color: var(--color-violet);
+  box-shadow: 0 4px 20px var(--color-violet-glow);
+}
+
+.trait-card.trait-emerald:hover {
+  border-color: var(--color-emerald);
+  box-shadow: 0 4px 20px var(--color-emerald-glow);
+}
+
+.trait-icon-box {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  border: 1px solid var(--border-subtle);
+}
+
+.trait-amber .trait-icon-box {
+  background: var(--color-amber-tint);
+  color: var(--color-amber);
+  border-color: rgba(249, 115, 22, 0.3);
+}
+
+.trait-violet .trait-icon-box {
+  background: var(--color-violet-tint);
+  color: var(--color-violet);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.trait-emerald .trait-icon-box {
+  background: var(--color-emerald-tint);
+  color: var(--color-emerald);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.trait-info {
+  flex: 1;
+}
+
+.trait-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.trait-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.trait-sub {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   08. SECTION 3: TECHNICAL CAPABILITIES
+   -------------------------------------------------------------------------- */
+.skills-stealth-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.skill-stealth-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 26px;
+  transition: var(--transition-smooth);
+}
+
+.skill-stealth-card:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-surface-elevated);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+}
+
+.skill-card-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.skill-head-icon {
+  font-size: 1.35rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-code);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.skill-category-tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.skill-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.skill-stealth-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skill-stealth-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(42, 42, 56, 0.6);
+  font-size: 0.9rem;
+}
+
+.skill-stealth-list li:last-child {
+  border-bottom: none;
+}
+
+.skill-name {
+  color: var(--text-secondary);
+}
+
+.skill-metric {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  background: var(--bg-code);
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+}
+
+/* --------------------------------------------------------------------------
+   09. SECTION 4: SELECTED PROJECTS
+   -------------------------------------------------------------------------- */
+.project-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.filter-btn {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.04em;
+  transition: var(--transition-fast);
+}
+
+.filter-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+}
+
+.filter-btn.active {
+  color: var(--color-amber);
+  background: var(--color-amber-tint);
+  border-color: var(--color-amber);
+  box-shadow: 0 0 12px var(--color-amber-glow);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr));
+  gap: 28px;
+}
+
+.project-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-smooth);
+}
+
+.project-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-4px);
+}
+
+/* Console Simulation Preview Window */
+.project-preview {
+  background: var(--bg-code);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 16px 20px;
+  font-family: var(--font-mono);
+}
+
+.preview-mockup-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(42, 42, 56, 0.7);
+}
+
+.mockup-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.mockup-url {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-left: 6px;
+  flex: 1;
+}
+
+.preview-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+
+.preview-code-sim {
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--text-code);
+}
+
+.code-comment {
+  color: var(--text-muted);
+}
+
+.syntax-keyword {
+  color: var(--color-amber);
+  font-weight: 600;
+}
+
+.syntax-fn {
+  color: var(--color-cyan);
+}
+
+.syntax-str {
+  color: var(--color-emerald);
+}
+
+.syntax-num {
+  color: var(--color-violet);
+}
+
+.syntax-amber {
+  color: var(--color-amber);
+}
+
+/* Project Card Details */
+.project-details {
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.project-meta-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.project-category {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.project-status-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-surface-elevated);
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+}
+
+.project-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.project-desc {
+  font-size: 0.94rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.tech-stack-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.tech-pill {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  transition: var(--transition-fast);
+}
+
+.tech-pill:hover {
+  color: var(--text-primary);
+  border-color: var(--color-steel);
+}
+
+.project-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.project-link {
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--color-amber);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--color-amber-tint);
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-smooth);
+}
+
+.project-link:hover {
+  background: var(--color-amber);
+  color: var(--text-contrast);
+  box-shadow: var(--shadow-amber-btn);
+  transform: translateY(-2px);
+}
+
+.project-link-secondary {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  transition: var(--transition-fast);
+}
+
+.project-link-secondary:hover {
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   10. SECTION 5: EXPERIENCE TIMELINE
+   -------------------------------------------------------------------------- */
+.timeline-stealth {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  margin-top: 20px;
+}
+
+.timeline-entry {
+  display: grid;
+  grid-template-columns: 200px 40px 1fr;
+  align-items: start;
+}
+
+.timeline-date {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-top: 6px;
+  padding-right: 18px;
+}
+
+.date-badge {
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+}
+
+.date-sub {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+
+/* Spine & Nodes */
+.timeline-spine {
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.timeline-spine::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  bottom: -40px;
+  width: 2px;
+  background: var(--border-subtle);
+}
+
+.timeline-entry:last-child .timeline-spine::before {
+  display: none;
+}
+
+.timeline-node {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bg-canvas);
+  border: 3px solid var(--color-amber);
+  box-shadow: 0 0 10px var(--color-amber-glow);
+  z-index: 2;
+  margin-top: 8px;
+  transition: var(--transition-fast);
+}
+
+.timeline-node.node-amber {
+  border-color: var(--color-amber);
+  box-shadow: 0 0 10px var(--color-amber-glow);
+}
+
+.timeline-node.node-violet {
+  border-color: var(--color-violet);
+  box-shadow: 0 0 10px var(--color-violet-glow);
+}
+
+.timeline-body {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 26px;
+  transition: var(--transition-smooth);
+}
+
+.timeline-body:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-surface-elevated);
+  transform: translateX(4px);
+  box-shadow: var(--shadow-card);
+}
+
+.timeline-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.timeline-tag {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.timeline-location {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.timeline-role {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.timeline-company {
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.timeline-company a {
+  color: var(--color-amber);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.timeline-company a:hover {
+  color: var(--color-amber-light);
+}
+
+.timeline-summary {
+  font-size: 0.94rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* --------------------------------------------------------------------------
+   11. SECTION 6: EDUCATION
+   -------------------------------------------------------------------------- */
+.education-stealth-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 36px;
+  display: grid;
+  grid-template-columns: 1fr auto 1.1fr;
+  align-items: center;
+  gap: 36px;
+  transition: var(--transition-smooth);
+}
+
+.education-stealth-card:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-surface-elevated);
+  box-shadow: var(--shadow-card);
+}
+
+.edu-left-col {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+}
+
+.edu-icon-box {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-amber-tint);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  border-radius: var(--radius-sm);
+  color: var(--color-amber);
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.edu-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.edu-program {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.edu-school {
+  font-size: 0.98rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.edu-years {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.edu-divider-vertical {
+  width: 1px;
+  height: 120px;
+  background: var(--border-subtle);
+}
+
+.edu-right-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.edu-course-heading {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edu-course-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.course-chip {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  background: var(--bg-code);
+  border: 1px solid var(--border-subtle);
+  padding: 6px 12px;
+  border-radius: var(--radius-xs);
+  transition: var(--transition-fast);
+}
+
+.course-chip:hover {
+  color: var(--color-amber);
+  border-color: var(--color-amber);
+}
+
+/* --------------------------------------------------------------------------
+   12. SECTION 7: TERMINAL EMBER CONTACT TRANSMISSION BANNER
+   -------------------------------------------------------------------------- */
+.cta-banner-stealth {
+  background: linear-gradient(135deg, #141418 0%, #1a1a24 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-smooth);
+}
+
+.cta-banner-stealth::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-amber) 50%, transparent 100%);
+}
+
+.cta-banner-stealth:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.cta-banner-content {
+  max-width: 650px;
+}
+
+.cta-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-amber);
+  margin-bottom: 12px;
+}
+
+.cta-title {
+  font-size: clamp(1.75rem, 3.2vw, 2.4rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.cta-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.cta-meta-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+}
+
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+}
+
+.cta-btn {
+  font-size: 0.95rem;
+  padding: 16px 32px;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   13. FOOTER
+   -------------------------------------------------------------------------- */
+.footer-stealth {
+  background: #08080A;
+  border-top: 1px solid var(--border-subtle);
+  padding: 48px 24px;
+}
+
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.footer-brand-side {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.footer-name {
+  font-family: var(--font-headline);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+}
+
+.footer-ver {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--color-amber);
+  letter-spacing: 0.06em;
+}
+
+.footer-motto {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+.footer-links-side {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-link {
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+
+.footer-link:hover {
+  color: var(--text-primary);
+  border-color: var(--color-amber);
+  transform: translateY(-2px);
+}
+
+.footer-top {
+  color: var(--color-amber);
+}
+
+/* --------------------------------------------------------------------------
+   14. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .education-stealth-card {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .edu-divider-vertical {
+    display: none;
+  }
+
+  .cta-banner-stealth {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .status-indicator {
+    display: none;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-links.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background: #141418;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 20px 24px 28px;
+    gap: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+  }
+
+  .nav-links.active .nav-link {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(28, 28, 36, 0.6);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+  }
+
+  .nav-links.active .nav-link:hover,
+  .nav-links.active .nav-link.active {
+    background: var(--color-amber-tint);
+    border-color: var(--color-amber);
+    color: var(--text-primary);
+  }
+
+  .mobile-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    font-size: 1.15rem;
+    color: var(--text-primary);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-fast);
+  }
+
+  .mobile-toggle:hover {
+    color: var(--color-amber);
+    border-color: var(--color-amber);
+  }
+
+  .timeline-entry {
+    grid-template-columns: 30px 1fr;
+    gap: 16px;
+  }
+
+  .timeline-date {
+    grid-column: 2;
+    align-items: flex-start;
+    padding-top: 0;
+    padding-right: 0;
+    margin-bottom: 8px;
+  }
+
+  .timeline-spine {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+  }
+
+  .timeline-body {
+    grid-column: 2;
+  }
+
+  .cta-meta-contacts {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
